@@ -1,15 +1,26 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-function Home() {
+const Home = () => {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    // Fetch movies from the local JSON server
+    fetch("http://localhost:4000/movies")
+      .then((res) => res.json())
+      .then((data) => setMovies(data));
+  }, []);
+
   return (
-    <>
-      <header>
-        {/* What component should go here? */}
-      </header>
-      <main>
-        {/* Info goes here! */}
-      </main>
-    </>
+    <div>
+      <h1>Home Page</h1>
+      {movies.map((movie) => (
+        <div key={movie.id}>
+          <h2>{movie.title}</h2>
+          <Link to={`/movie/${movie.id}`}>View Info</Link>
+        </div>
+      ))}
+    </div>
   );
 };
 
